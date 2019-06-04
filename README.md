@@ -37,6 +37,51 @@ console.log(total); // 1110
 const arr = [...new Set([1, 2, 3, 3])];
 [1, 2, 3]
 ```
+# Getting a substring
+There are 3 methods in JavaScript to get a substring: substring, substr and slice.
+
+slice : returns the part of the string from start to (but not including) end. str.slice(start [, end])
+```javascript
+let str = "stringify";
+alert( str.slice(0, 5) ); // 'strin', the substring from 0 to 5 (not including 5)
+alert( str.slice(0, 1) ); // 's', from 0 to 1, but not including 1, so only character at 0
+
+// If there is no second argument, then slice goes till the end of the string:
+let str = "stringify";
+alert( str.slice(2) ); // ringify, from the 2nd position till the end
+
+//Negative values for start/end are also possible. They mean the position is counted from the string end:
+let str = "stringify";
+// start at the 4th position from the right, end at the 1st from the right
+alert( str.slice(-4, -1) ); // gif
+```
+substring : returns the part of the string between start and end, this is almost the same as slice, but it allows start to be greater than end. str.substring(start [, end])
+```javascript
+let str = "stringify";
+
+// these are same for substring
+alert( str.substring(2, 6) ); // "ring"
+alert( str.substring(6, 2) ); // "ring"
+
+// ...but not for slice:
+alert( str.slice(2, 6) ); // "ring" (the same)
+alert( str.slice(6, 2) ); // "" (an empty string)
+
+//Negative arguments are (unlike slice) not supported, they are treated as 0.
+let str = "stringify";
+alert( str.substr(2, 4) ); // ring, from the 2nd position get 4 characters
+
+//The first argument may be negative, to count from the end:
+let str = "stringify";
+alert( str.substr(-4, 2) ); // gi, from the 4th position get 2 characters
+```
+
+|method|selects...|negatives|
+|----------------|-------------------------------|-----------------------------|
+slice(start, end)|from `start` to `end` (not including `end`)| allows negatives
+`substring(start, end)`|between  `start`  and  `end`|negative values mean  `0`
+`substr(start, length)`|from  `start`  get  `length`  characters|allows negative  `start`
+
 
 # ES6, var vs let
 The scope of a variable defined with var is function scope or declared outside any function, global.
