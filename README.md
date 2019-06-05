@@ -11,6 +11,51 @@
   Math.max(...numbers) // 4
   Math.min(...numbers) // 1
 ```
+# Arrays :
+https://javascript.info/array-method
+
+# Map, Set, WeakMap and WeakSet :
+https://javascript.info/map-set-weakmap-weakset
+
+# Array destructuring (Destructuring assignment)
+https://javascript.info/destructuring-assignment#array-destructuring
+
+It’s called “destructuring assignment,” because it “destructurizes” by copying items into variables. But the array itself is not modified.
+
+```javascript
+// we have an array with the name and surname
+let arr = ["A", "B"]
+// destructuring assignment
+let [firstName, surname] = arr;
+alert(firstName); // A
+alert(surname);  // B
+
+let [firstName, surname] = "Ilya Kantor".split(' ');
+
+
+// second element is not needed
+let [firstName, , title] = ["This", "is", "good", "example"];
+alert( title ); // good
+//Properties options.title, options.width and options.height are assigned to the corresponding variables. The order does not matter. This works too:
+// changed the order of properties in let {...}
+let {height, width, title} = { title: "Menu", height: 200, width: 100 }
+
+```
+# Object destructuring
+https://javascript.info/destructuring-assignment#object-destructuring
+```javascript
+let options = {
+  title: "Menu",
+  width: 100,
+  height: 200
+};
+
+let {title, width, height} = options;
+
+alert(title);  // Menu
+alert(width);  // 100
+alert(height); // 200
+```
 
 # Reduce in arrays
 reduce() function accepts 2 parameters (M: mandatory, O: optional):
@@ -82,6 +127,73 @@ slice(start, end)|from `start` to `end` (not including `end`)| allows negatives
 `substring(start, end)`|between  `start`  and  `end`|negative values mean  `0`
 `substr(start, length)`|from  `start`  get  `length`  characters|allows negative  `start`
 
+# Array - splice
+The arr.splice(str) method is a swiss army knife for arrays. It can do everything: insert, remove and replace elements.
+Syntax : arr.splice(index[, deleteCount, elem1, ..., elemN])
+It starts from the position index: removes deleteCount elements and then inserts elem1, ..., elemN at their place. Returns the array of removed elements.
+```javascript
+let arr = ["I", "study", "JavaScript"];
+arr.splice(1, 1); // from index 1 remove 1 element
+alert( arr ); // ["I", "JavaScript"]
+
+// We remove 3 elements and replace them with the other two:
+let arr = ["I", "study", "JavaScript", "right", "now"];
+// remove 3 first elements and replace them with another
+arr.splice(0, 3, "Let's", "dance");
+alert( arr ) // now ["Let's", "dance", "right", "now"]
+
+//splice returns the array of removed elements
+let arr = ["I", "study", "JavaScript", "right", "now"];
+// remove 2 first elements
+let removed = arr.splice(0, 2);
+alert( removed ); // "I", "study" <-- array of removed elements
+
+//The splice method is also able to insert the elements without any removals. For that we need to set deleteCount to 0:
+let arr = ["I", "study", "JavaScript"];
+// from index 2
+// delete 0
+// then insert "complex" and "language"
+arr.splice(2, 0, "complex", "language");
+alert( arr ); // "I", "study", "complex", "language", "JavaScript"
+
+
+//Negative Index are allowed
+let arr = [1, 2, 5];
+// from index -1 (one step from the end)
+// delete 0 elements,
+// then insert 3 and 4
+arr.splice(-1, 0, 3, 4);
+alert( arr ); // 1,2,3,4,5
+```
+
+# Custom function to splice string - (array's splice function does not work on strings)
+
+```javascript
+function spliceSlice(str, index, count, add) {
+  // We cannot pass negative indexes directly to the 2nd slicing operation.
+  if (index < 0) {
+    index = str.length + index;
+    if (index < 0) {
+      index = 0;
+    }
+  }
+
+  return str.slice(0, index) + (add || "") + str.slice(index + count);
+}
+```
+# Getting array items from behind to front
+```javascript
+var newArray = [1, 2, 3, 4];
+console.log(newArray.slice(-1)); // [4]
+console.log(newArray.slice(-2)); // [3, 4]
+console.log(newArray.slice(-3)); // [2, 3, 4]
+console.log(newArray.slice(-4)); // [1, 2, 3, 4] //reverse it using length of array
+
+//Reverse
+let arr = [1, 2, 3, 4, 5];
+arr.reverse();
+alert( arr ); // 5,4,3,2,1
+```
 
 # ES6, var vs let
 The scope of a variable defined with var is function scope or declared outside any function, global.
@@ -131,15 +243,6 @@ for (let i = 0; i < 5; ++i) {
     console.log(i); // output 0, 1, 2, 3, 4 
   }, 100);  
 }
-```
-
-# Getting array items from behind to front
-```javascript
-var newArray = [1, 2, 3, 4];
-console.log(newArray.slice(-1)); // [4]
-console.log(newArray.slice(-2)); // [3, 4]
-console.log(newArray.slice(-3)); // [2, 3, 4]
-console.log(newArray.slice(-4)); // [1, 2, 3, 4] //reverse it using length of array
 ```
 
 # Bind method in action
