@@ -279,3 +279,96 @@ getType.bind(myCar)(); // Sedan
 let boundGetColor = getColor.bind(myCar);
 boundGetColor(); // Red
 ```
+
+# closures
+https://javascript.info/closure
+There is a general programming term “closure”, that developers generally should know.
+A closure is a function that remembers its outer variables and can access them. In some languages, that’s not possible, or a function should be written in a special way to make it happen. But as explained above, in JavaScript, all functions are naturally closures (there is only one exclusion, to be covered in The "new Function" syntax).
+
+That is: they automatically remember where they were created using a hidden [[Environment]] property, and all of them can access outer variables.
+
+A closure is a function that returns another function and wraps data. The above string generator qualifies for a closure. The index value is preserved between multiple function calls. The internal function defined can access the variables defined in the parent function. This is a different scope. If you defined one more function in the second level function, that can access all parent’s variables.
+
+Example 1 
+```javascript
+function makeCounter() {
+  let count = 0;
+  return function() {
+    return count++;
+  };
+}
+
+let counter1 = makeCounter();
+let counter2 = makeCounter();
+
+alert( counter1() ); // 0
+alert( counter1() ); // 1
+
+alert( counter2() ); // 0 (independent)
+```
+
+Example 2
+```javascript
+function generator(input) {
+  var index = 0;
+  return {
+     next: function() {
+       if (index < input.length) {
+            index += 1;
+            return input[index - 1];
+       }
+       return "";
+     } 
+  }
+}
+var mygenerator = generator("boomerang");
+mygenerator.next(); // returns "b"
+mygenerator.next() // returns "o"
+
+mygenerator = generator("toon");
+mygenerator.next(); // returns "t"
+```
+
+Example 3
+```javascript
+function Counter() {
+  let count = 0;
+
+  this.up = function() {
+    return ++count;
+  };
+
+  this.down = function() {
+    return --count;
+  };
+}
+
+let counter = new Counter();
+
+alert( counter.up() ); // 1
+alert( counter.up() ); // 2
+alert( counter.down() ); // 1
+```
+# Property flags and descriptors
+https://javascript.info/property-descriptors
+
+# var, let, const
+> **Var:**
+>  `var` is function scoped.
+>  `var` variables are either function-wide or global, they are visible through blocks.
+>  `var` declarations are processed when the function starts (or script starts for globals).
+>  `undefined` when accessing a variable before it's declared.
+
+> **let:**
+>  `let` is block scoped.
+>   ReferenceError when accessing a variable before it's declared.
+>  `let` and `const` behave exactly the same way in terms of Lexical Environments.
+>   use `let` when one need to reassign a variable. The use case for `let` tends to be for loops.
+>  `let`, is a signal that the variable may be reassigned, It also signals that the variable will be used only in the block it’s defined >   in, which is not always the entire containing function.
+
+> **const:**
+>  `const` is block scoped.
+>  `let` and `const` behave exactly the same way in terms of Lexical Environments.
+>  `const` means that the identifier can’t be reassigned.
+>  ReferenceError when accessing a variable before it's declared.
+>  Can't be reassigned.
